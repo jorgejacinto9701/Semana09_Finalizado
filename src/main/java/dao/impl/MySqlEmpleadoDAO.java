@@ -27,8 +27,12 @@ public class MySqlEmpleadoDAO implements EmpleadoDAO{
 		try {
 			conn = MySqlDBConexion.getConexion();
 			
-			String sql = "insert into empleado values(null,?,?,?,?,?)";
-			pstm = conn.prepareStatement(sql);
+			//String sql = "insert into empleado values(null,?,?,?,?,?)";
+			//pstm = conn.prepareStatement(sql);
+			
+			String sql = "call sp_empleado_inserta(?,?,?,?,?)";
+			pstm = conn.prepareCall(sql);
+			
 			pstm.setString(1, obj.getNombres());
 			pstm.setDate(2, obj.getFechaNacimiento());
 			pstm.setInt(3, obj.getEstado());
@@ -108,10 +112,13 @@ public class MySqlEmpleadoDAO implements EmpleadoDAO{
 		try {
 			conn = MySqlDBConexion.getConexion();
 			
-			String sql = "SELECT e.*, p.nombre FROM empleado e "
-					+ "inner join pais p on e.idPais = p.idPais "
-					+ "where e.nombres like ?";
-			pstm = conn.prepareStatement(sql);
+			//String sql = "SELECT e.*, p.nombre FROM empleado e "
+			//		+ "inner join pais p on e.idPais = p.idPais "
+			//		+ "where e.nombres like ?";
+			//pstm = conn.prepareStatement(sql);
+			
+			String sql = "call sp_empleado_lista(?)";
+			pstm = conn.prepareCall(sql);
 			pstm.setString(1, filtro);
 
 			log.info(">>>> " + pstm);
@@ -155,8 +162,12 @@ public class MySqlEmpleadoDAO implements EmpleadoDAO{
 		PreparedStatement pstm = null;
 		try {
 			conn = MySqlDBConexion.getConexion();
-			String sql = "update empleado set nombres=?, fechaNacimiento=?, estado=?, idPais=? where idEmpleado=?";
-			pstm = conn.prepareStatement(sql);
+			//String sql = "update empleado set nombres=?, fechaNacimiento=?, estado=?, idPais=? where idEmpleado=?";
+			//pstm = conn.prepareStatement(sql);
+			
+			String sql = "call sp_empleado_actualiza(?,?,?,?,?)";
+			pstm = conn.prepareCall(sql);
+			
 			pstm.setString(1, obj.getNombres());
 			pstm.setDate(2, obj.getFechaNacimiento());
 			pstm.setInt(3, obj.getEstado());
@@ -184,8 +195,11 @@ public class MySqlEmpleadoDAO implements EmpleadoDAO{
 		PreparedStatement pstm = null;
 		try {
 			conn = MySqlDBConexion.getConexion();
-			String sql = "delete from empleado where idEmpleado = ?";
-			pstm = conn.prepareStatement(sql);
+			//String sql = "delete from empleado where idEmpleado = ?";
+			//pstm = conn.prepareStatement(sql);
+			
+			String sql = "call sp_empleado_elimina(?)";
+			pstm = conn.prepareCall(sql);
 			pstm.setInt(1, idEmpleado);
 			
 			log.info(">>>> " + pstm);
@@ -211,10 +225,13 @@ public class MySqlEmpleadoDAO implements EmpleadoDAO{
 		try {
 			conn = MySqlDBConexion.getConexion();
 			
-			String sql = "SELECT e.*, p.nombre FROM empleado e "
-					+ "inner join pais p on e.idPais = p.idPais "
-					+ "where e.idEmpleado = ?";
-			pstm = conn.prepareStatement(sql);
+			//String sql = "SELECT e.*, p.nombre FROM empleado e "
+			//		+ "inner join pais p on e.idPais = p.idPais "
+			//		+ "where e.idEmpleado = ?";
+			//pstm = conn.prepareStatement(sql);
+			
+			String sql = "call sp_empleado_busca(?)";
+			pstm = conn.prepareCall(sql);
 			pstm.setInt(1, idEmpleado);
 
 			log.info(">>>> " + pstm);
